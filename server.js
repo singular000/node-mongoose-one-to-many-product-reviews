@@ -12,7 +12,9 @@ const mongoURI   = process.env.MONGODB_URI || 'mongodb://localhost/products_revi
 mongoose.Promise = global.Promise;
 
 // DB
-mongoose.connect(mongoURI, () => console.log('Mongo running at: ', mongoURI));
+mongoose.connect(mongoURI, { useMongoClient: true }, 
+  () => console.log('Mongo running at: ', mongoURI)
+);
 
 // CONTROLLERS
 const reviewsController = require('./controllers/reviews');
