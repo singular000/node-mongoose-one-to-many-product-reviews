@@ -31,7 +31,6 @@ router.post('/', async (req, res) => {
 });
 
 router.delete(':/id', async (req, res) => {
-  console.log('delete route');
   try {
     const product = await Product.findByIdAndRemove(req.params.id);
     await Review.remove({ product: product.id });
