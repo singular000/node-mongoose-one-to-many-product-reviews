@@ -21,6 +21,7 @@ const reviewsController = require('./controllers/reviews');
 const productsController = require('./controllers/products');
 
 // MIDDLEWARE
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
