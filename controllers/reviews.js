@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  console.log('Review coming in: ', req.body);
   try {
     const review = await Review.create(req.body);
     res.status(200).json(review);

@@ -8,25 +8,22 @@ $(() => getProducts());
 const getProducts = async () => {
   $('main').empty();
   const products = await $.ajax('/products');
+  console.log(products);
   for (let i=0; i < products.length; i++) {
     $productContainer = $('<div>').addClass('product-container');
-    $productContainer.attr('data', products[i]._id);
     $productImgContainer = $('<div>').addClass('product-img-container');
     $productImgContainer.append($('<img>').attr('src', products[i].img));
     $productContainer.append($('<h1>').text(products[i].name));
     $productContainer.append($productImgContainer);
     $productContainer.append($('<h3>').text('$' + products[i].price));
-    $productContainer.on('click', showProduct);
+    $productContainer.on('click', () => showProduct(products[i]));
     $('main').append($productContainer);
   }
 }
 
 // 'show page'
-const showProduct = async (event, id) => {
-  if (!id) id = $(event.currentTarget).attr('data');
-  const product = await $.ajax('/products/' + id);
+const showProduct = (product) => {
   $('main').empty();
-  console.log("Show product: ", product);
   $productContainer = $('<div>').addClass('product-container-expanded');
   $productImgContainer = $('<div>').addClass('product-img-container-expanded');
   $productImgContainer.append($('<img>').attr('src', product.img));
@@ -57,7 +54,8 @@ const addReview = (product) => {
         method: 'post',
         data
       });
-      showProduct(event, product._id);
+      product.reviews.push(result);
+      showProduct(product);
     } catch (err) {
       console.log(err);
     }
@@ -66,5 +64,25 @@ const addReview = (product) => {
 
 // 'index page' of related data
 const showReviews = (product) => {
+  $reviewsContainer = $('<div>');
   console.log('reviews to display: ', product.reviews);
+  product.reviews.forEach((review) => {
+    $oneReview = $('<div>');
+    $oneReview.append('<h1>' + review.title + '</h1>');
+    $reviewsContainer.append($oneReview);
+  });
+  $('.product-container-expanded').append($reviewsContainer);
 }
+
+const editReview = (review) => {
+  console.log('edit review');
+}
+
+const deleteReview = (review) => {
+  console.log('delete review');
+}
+
+
+
+
+

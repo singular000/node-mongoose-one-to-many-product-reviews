@@ -6,6 +6,9 @@ const Review   = require('../models/reviews');
 
 router.get('/', async (req, res) => {
   const products = await Product.find();
+  for (product of products) {
+    product.reviews = await Review.find({ product: product._id });
+  }
   res.status(200).json(products);
 });
 
